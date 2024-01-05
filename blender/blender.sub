@@ -1,0 +1,17 @@
+executable   = blender.sh
+
+output       = logs/frame-$(Process).out
+error        = logs/frame-$(Process).err
+log          = logs/frame-$(Process).log
+
+environment = Frame=$(Process)
+
+### Request GPUs 
+requirements = (TotalGPUs > 0)
++request_gpus = 1
+
+### Request CPUs
+#request_cpus = Cpus
+#rank = Cpus
+
+queue 250
