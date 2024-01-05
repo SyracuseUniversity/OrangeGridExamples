@@ -16,7 +16,7 @@ its-og-login3.ad.syr.edu
 
 although the name may be different.
 
-Next to run the command though HTCondor
+Next, to run the command though HTCondor
 
 ```bash
 condor_submit hostname.sub
