@@ -1,7 +1,5 @@
 # Blender
 
-
-
 ```bash
 # Pull Blender container:
 # https://github.com/linuxserver/docker-blender
@@ -14,7 +12,6 @@ wget https://mirror.clarkson.edu/blender/demo/geometry-nodes/fields/ball-in-gras
 # Submit a job:
 condor_submit blender.sub
 
-# Check your queue and watch:
+# Check your queue:
 condor_q netid
-watch -n 5 condor_q netid
 ```
