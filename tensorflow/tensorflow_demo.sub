@@ -1,0 +1,11 @@
+executable   = tensorflow_wrapper.sh
+
+output       = output/tensorflow_demo.out
+error        = output/tensorflow_demo.err
+log          = logs/tensorflow_demo.log
+
+Requirements = CUDADeviceName =!= Undefined
+
++request_gpus = 1
+
+queue 1
