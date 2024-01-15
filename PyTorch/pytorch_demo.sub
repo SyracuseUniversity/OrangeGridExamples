@@ -1,0 +1,11 @@
+executable   = pytorch_wrapper.sh
+
+output       = output/pytorch_demo.out
+error        = output/pytorch_demo.err
+log          = logs/pytorch_demo.log
+
+Requirements = CUDADriverVersion >= 12.0
+
++request_gpus = 1
+
+queue 1
