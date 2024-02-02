@@ -2,7 +2,7 @@
 
 ![OrangeGrind logo image](https://researchcomputing.syr.edu/wp-content/uploads/orange-grid-440x440.png)
 
-This repository provides code examples for regularly used applications within the OrangeGrid cluster.
+This repository provides code examples for commonly used applications within the OrangeGrid cluster.
 
 ## Need Help? 
 
