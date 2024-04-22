@@ -2,7 +2,8 @@
 
 eval "$(/home/$(whoami)/miniconda3/bin/conda shell.bash hook)"
 
-conda activate rbase   
+# If you installed R into a virtual environment you would need to activate it here:
+# conda activate rbase   
 
 Rscript r_demo.R
 
