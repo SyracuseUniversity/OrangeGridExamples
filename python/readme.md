@@ -8,13 +8,13 @@ directories.
 
 ## Installing Conda
 
-For most Python users we recommend installing [Conda](https://docs.conda.io/en/latest/) and 
+For most Python users we recommend installing [Conda](https://github.com/conda-forge/miniforge) and 
 using that to manage your environment.  To install Conda:
 
 ```bash
-wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+wget https://github.com/conda-forge/miniforge/releases/download/24.7.1-0/Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh
 
-bash Miniconda3-latest-Linux-x86_64.sh -b -p $HOME/miniconda3
+bash Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh  -b -p $HOME/miniconda3
 eval "$(${HOME}/miniconda3/bin/conda shell.bash hook)"
 conda init
 ```
