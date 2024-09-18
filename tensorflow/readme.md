@@ -46,7 +46,7 @@ After activating the tensorflow environment you can install any additional packa
 may need, for example
 
 ```bash
-conda install anaconda::scipy 
+conda install scipy 
 ```
 
 

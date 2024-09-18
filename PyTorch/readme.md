@@ -47,7 +47,7 @@ After activating the pytorch environment you can install any additional packages
 may need, for example
 
 ```bash
-conda install anaconda::scipy 
+conda install scipy 
 ```
 
 
