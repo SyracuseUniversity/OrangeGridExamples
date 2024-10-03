@@ -87,9 +87,9 @@ cat output/octave_demo.out
 
 ## The wrapper script
 
-Note that `octave_demo.sub` does not call `octave_demo.py` directly.  This is because the job needs to be
-set up so that it will run inside th Conda environment, which is not enabled by default.  The submit
-files therefor calls a wrapper script, which sets up the environment and then runs the octave code.  For most
+Note that `octave_demo.sub` does not call `octave_demo.m` directly.  This is because the job needs to be
+set up so that it will run inside the Conda environment which is not enabled by default.  The submit
+file therefore calls a wrapper script, which sets up the environment and then runs the octave code.  For most
 simple Octave applications you should be able to modify `conda_wrapper.sh` without modifying the submit
 file.
 
