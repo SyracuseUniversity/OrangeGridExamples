@@ -1,0 +1,7 @@
+executable   = conda_wrapper.sh
+
+output       = output/octave_demo.out
+error        = output/octave_demo.err
+log          = logs/octave_demo.log
+
+queue 1
