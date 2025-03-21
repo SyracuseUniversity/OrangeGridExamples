@@ -10,7 +10,7 @@ export OLLAMA_MODELS=$HOME/.ollama/models
 source ~/.bashrc
 
 # Activate Conda environment (adjust path as needed)
-eval "$(/home/$(whoami)/miniconda3/bin/conda shell.bash hook)"
+eval "$(/home/$(whoami)/miniconda3/bin/conda shell.bash hook)" # Or miniforge depending on how you installed Conda
 conda activate base  # Replace with the actual Conda environment name
 
 # Start Ollama server in the background
