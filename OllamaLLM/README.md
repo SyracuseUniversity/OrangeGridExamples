@@ -90,7 +90,7 @@ After submitting, you can check on the progress monitor with:
 ```bash
 condor_q <your_netid> # check progress
 watch -n 5 condor_q <your_netid> # monitor
-tail -f ~/ollama/logs/ollama_demo.log # monitor continuously for resource allocation and job progress once running
+tail -f ~/ollama/logs/ollama_demo.log # monitor continuously for resource allocation as your model will have several checkpoints of node memory allocation
 ```
 
 When it complets, you can check the output with:  
