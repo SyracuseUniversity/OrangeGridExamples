@@ -61,13 +61,13 @@ Once Ollama is installed, you can download a model for inference. Note the name 
 Example:  
 
 ```bash
-ollama pull deepseek-r1 # Or approprate model name
+~/bin/ollama/ollama pull deepseek-r1 # Or approprate model name
 ```
 
 User the list feature to review installed models.  
 
 ```bash
-ollama list
+~/bin/ollama/ollama list
 ```
 
 ## **4. Setup Your Working Directory**  
