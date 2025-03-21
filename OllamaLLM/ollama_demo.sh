@@ -26,8 +26,7 @@ echo "Question: $QUESTION"
 
 # Run inference using the preloaded model
 echo "Running inference..."
-$HOME/bin/ollama/ollama run gemma3:1b "QUESTION" # Or replace with appropriate model, deepseek example below
-# $HOME/bin/ollama/ollama run deepseek-r1 "$QUESTION"
+$HOME/bin/ollama/ollama run deepseek-r1 "$QUESTION" # Or appropriate model name, run '~/bin/ollama/ollama list' to review
 
 # Shut down Ollama after inference
 echo "Shutting down Ollama..."
