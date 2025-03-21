@@ -100,4 +100,4 @@ cat ~/ollama/output/ollama_demo.out
 ```
 
 ## **Wrapper Script**  
-Note that tensorflow_demo.sub does not call tensorflow_demo.py directly. This is because the job needs to be set up so that it will run inside the Conda environment, which is not enabled by default. The submit files therefor calls a wrapper script, which sets up the environment and then runs the tensorflow code. For most simple applications you should be able to modify tensorflow_wrapper.sh without modifying the submit file.
+Note that ollama_demo.sub does not pass the code execution directly. This is because the job needs to be set up so that it will run inside the Conda environment, which is not enabled by default. The submit files therefor calls a wrapper script, which sets up the environment and then runs the Ollama code. For most simple applications you should be able to modify ollama_demo.sh without modifying the submit file.
