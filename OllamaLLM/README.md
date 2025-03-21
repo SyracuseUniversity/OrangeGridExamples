@@ -8,12 +8,17 @@ Always reference the details on [the Ollama site](https://ollama.com/download/li
 ## **Installation Steps**  
 
 ### **1. Installing Conda**  
-If you do not already have Conda, install Miniforge using:
+For most Python users we recommend installing [Conda](https://docs.conda.io/en/latest/) and
+using that to manage your environment if you have not done so alerady. Note that miniforge or miniconda are both acceptable.   
+
+To install Conda:  
 
 ```bash
 wget https://github.com/conda-forge/miniforge/releases/download/24.7.1-0/Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh
-bash Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh -b -p $HOME/miniconda3
-eval "$(${HOME}/miniconda3/bin/conda shell.bash hook)"
+
+bash Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh  -b -p $HOME/miniforge
+eval "$(${HOME}/miniforge/bin/conda shell.bash hook)"
+
 conda init
 ```
 
