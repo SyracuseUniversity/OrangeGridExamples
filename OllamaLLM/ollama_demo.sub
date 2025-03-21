@@ -1,0 +1,18 @@
+universe   = vanilla
+
+executable = ollama_demo.sh
+output     = output/ollama_demo.out
+error      = output/ollama_demo.err
+log        = logs/ollama_demo.log
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+
+request_cpus = 2
+request_memory = 8192
+getenv = True
+
+Requirements = CUDADeviceName =!= Undefined
+
++request_gpus = 1
+
+queue 1
