@@ -1,0 +1,21 @@
+# Sample Output File
+Starting Ollama server...
+Question: What is HTCondor?
+Running inference...
+<think>
+
+</think>
+
+HTCondor is a distributed computing system designed to manage and optimize the execution of large numbers of jobs across a cluster of computers. It was developed by the Apache project at Oracle, now known as OpenJDK. HTCondor is particularly useful for resource management in high-performance computing environments, such as data centers or research institutions where many tasks need to be processed efficiently.
+
+Key features of HTCondor include:
+
+1. **Job Scheduling**: HTCondor dynamically schedules jobs across available resources based on priority and availability.
+2. **Resource Utilization**: It efficiently uses idle resources by matching them with appropriate tasks, ensuring optimal performance.
+3. **Scalability**: The system can scale from a single machine to large clusters of thousands of nodes.
+4. **Fault Tolerance**: HTCondor automatically handles failures by rerouting failed jobs to other available nodes in the cluster.
+5. **Support for Hadoop and K8s**: It integrates with popular containerization frameworks like Hadoop, Kubernetes (K8s), and others.
+
+HTCondor is widely used in enterprise environments, scientific research, and big data processing to manage workflows involving thousands of tasks and resources efficiently.
+
+Shutting down Ollama...
