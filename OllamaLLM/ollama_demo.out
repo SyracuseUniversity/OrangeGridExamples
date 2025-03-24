@@ -1,21 +1,30 @@
 # Sample Output File
 Starting Ollama server...
+Waiting for Ollama... (0 seconds)
 Question: What is HTCondor?
 Running inference...
-<think>
+HTCondor (High-Throughput Condor) is a high-performance distributed computing platform for batch jobs. It was originally developed at the University of Wisconsin–Madison in the late 1990s and has since become widely used by researchers, scientists, and industry professionals around the world.
 
-</think>
+HTCondor is designed to manage and optimize large-scale computing resources, such as clusters of computers or high-performance computing (HPC) systems. It provides a flexible framework for submitting and managing batch jobs, allowing users to easily share their computational resources with others, either within or outside their own organization.
 
-HTCondor is a distributed computing system designed to manage and optimize the execution of large numbers of jobs across a cluster of computers. It was developed by the Apache project at Oracle, now known as OpenJDK. HTCondor is particularly useful for resource management in high-performance computing environments, such as data centers or research institutions where many tasks need to be processed efficiently.
+Some key features of HTCondor include:
 
-Key features of HTCondor include:
+1. Resource management: HTCondor manages the allocation and deallocation of computing resources, ensuring that jobs are executed efficiently and fairly.
+2. Job scheduling: HTCondor schedules jobs in a fair and efficient manner, taking into account factors such as priority, resource availability, and job dependencies.
+3. Distributed computing: HTCondor allows users to distribute their computational workloads across multiple machines or nodes, leveraging the collective processing power of a cluster or grid.
+4. Grid computing: HTCondor can be integrated with other grid computing systems to enable seamless communication and collaboration between different organizations or institutions.
+5. Web-based interface: HTCondor provides a user-friendly web-based interface for submitting jobs, monitoring their status, and managing resources.
 
-1. **Job Scheduling**: HTCondor dynamically schedules jobs across available resources based on priority and availability.
-2. **Resource Utilization**: It efficiently uses idle resources by matching them with appropriate tasks, ensuring optimal performance.
-3. **Scalability**: The system can scale from a single machine to large clusters of thousands of nodes.
-4. **Fault Tolerance**: HTCondor automatically handles failures by rerouting failed jobs to other available nodes in the cluster.
-5. **Support for Hadoop and K8s**: It integrates with popular containerization frameworks like Hadoop, Kubernetes (K8s), and others.
+HTCondor is widely used in various fields, including:
 
-HTCondor is widely used in enterprise environments, scientific research, and big data processing to manage workflows involving thousands of tasks and resources efficiently.
+1. Scientific research
+2. High-performance computing (HPC)
+3. Grid computing
+4. Distributed computing
+5. Artificial intelligence and machine learning
+
+Some notable users of HTCondor include the Open Science Grid (OSG), the Internet2 Middleware Initiative, and several universities and research institutions worldwide.
+
+HTCondor is available under an open-source license, making it a popular choice for researchers and organizations seeking to build high-performance computing systems on their own.
 
 Shutting down Ollama...
