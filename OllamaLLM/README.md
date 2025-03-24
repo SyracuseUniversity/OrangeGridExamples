@@ -59,8 +59,8 @@ ollama --version
 ```
 
 ## **3. Downloading a Model**  
-Once Ollama is installed, you can download a model for inference or use the default model. Note the name of the model must be exact. See the [full list](https://ollama.com/search) for details.  
-Example:  
+Once Ollama is installed, you can download a model for inference or use the default model (currently gemma3:1b). Note the name of the model must be exact. See the [full list](https://ollama.com/search) for details.  
+Example used in this demo, llama3.2:  
 
 ```bash
 ~/bin/ollama/ollama pull llama3.2 # Or approprate model name
