@@ -3,9 +3,6 @@
 # Ensure HOME is set correctly
 export HOME=/home/$(whoami)
 
-# Set Ollama model directory (using the pre-downloaded model)
-export OLLAMA_MODELS=$HOME/.ollama/models
-
 # Load environment variables
 source ~/.bashrc
 
@@ -16,7 +13,19 @@ conda activate base  # Replace with the actual Conda environment name
 # Start Ollama server in the background
 echo "Starting Ollama server..."
 nohup $HOME/bin/ollama/ollama serve > $HOME/ollama/server/ollama_server.log 2>&1 &
-sleep 5  # Give it time to start
+
+# Startup Timuing
+timeout=120   # Total time to wait, in seconds
+elapsed=0
+while ! curl -s http://localhost:11434/api/tags > /dev/null; do
+    echo "Waiting for Ollama... ($elapsed seconds)"
+    sleep 10 # check every 10 seconds
+    elapsed=$((elapsed + 10)) # increment elapsed time with sleep timer
+    if [ "$elapsed" -ge "$timeout" ]; then
+        echo "Ollama did not start within $timeout seconds"
+        exit 1
+    fi
+done
 
 # Define the question
 QUESTION="What is HTCondor?"
@@ -26,7 +35,7 @@ echo "Question: $QUESTION"
 
 # Run inference using the preloaded model
 echo "Running inference..."
-$HOME/bin/ollama/ollama run deepseek-r1 "$QUESTION" # Or appropriate model name, run '~/bin/ollama/ollama list' to review
+$HOME/bin/ollama/ollama run gemma3 "$QUESTION" # Or appropriate model name, run '~/bin/ollama/ollama list' to review
 
 # Shut down Ollama after inference
 echo "Shutting down Ollama..."
