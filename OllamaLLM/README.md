@@ -53,7 +53,7 @@ source ~/.bashrc
 Test that it is installed and working.  
 
 ```bash
-~/bin/ollama/ollama
+~/bin/ollama/ollama --version
 # or, if you are in the directory location
 ollama --version
 ```
