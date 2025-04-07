@@ -3,7 +3,7 @@
 This diretcory contains programs that are useful for getting a picture of the cluster.
 
 
-## freeCores
+## freeResources
 
 A basic Python program (no extra packages needed) that ingests information from `condor_status` and
 summarizes the number of free cores and nodes.  To use it, construct a query, output as json and pipe it
