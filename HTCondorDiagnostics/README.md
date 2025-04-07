@@ -11,25 +11,27 @@ as input.  For example, this reports on all nodes available for local research w
 used for OSG
 
 ```bash
-condor_status -const 'regexp("slot1@",name) && !regexp("OSG",name)' -long -json | python3 freeCores.py
+condor_status -const 'regexp("slot1@",name) && !regexp("OSG",name)' -long -json | python3 freeResources.py
 
-Total CPUs 46360
-Free CPUs 13378
-Largest free CPUs on a single node 127
+Resource                Total   Available
+CPUs                    59784   9570
+NVIDIA A100 80GB PCIe   16      1
+NVIDIA A40              24      17
+Quadro RTX 6000         96      84
+Quadro RTX 5000         4       1
 
-Total GPUs 140
-Free GPUs 125
-Largest free GPUs on a single node 4
+Largest free block of CPUs: 112, on a node with 128 CPUs
 ```
 
 This reports on the subset of these nodes that supports the avx2 instruction set
 
 ```bash
-condor_status -const 'regexp("slot1@",name) && !regexp("OSG",name) && has_avx2' -long -json | python3 freeCores.py
+condor_status -const 'regexp("slot1@",name) && !regexp("OSG",name) && has_avx2' -long -json | python3 freeResources.py
 
-Total CPUs 37606
-Free CPUs 11728
-Largest free CPUs on a single node 127
+Resource                Total   Available
+CPUs                    49229   8298
+
+Largest free block of CPUs: 112, on a node with 128 CPUs
 ```
 
 
