@@ -1,10 +1,15 @@
 # Tensorflow
 
 Tensorflow is a large, complex toolkit with a lot of dependancies.  We therefore recommend using
-[Conda](https://docs.conda.io/en/latest/) to install it.
+either [Conda](https://docs.conda.io/en/latest/) or [Singularity](https://docs.sylabs.io/guides/latest/user-guide/)
+to install it.
 
 
-## Installing Conda
+## Installing with Conda
+
+(Note: The Conda install tends to be fragile, instructions on the tensorflow website often 
+do not work.  However, we recommend trying this approach first because when it does work it
+is the lightest and most flexible solution.)
 
 To install Conda:
 
@@ -33,7 +38,7 @@ Here is some information on
 After making these changes log out and log back in.
 
 
-## Installing tensorflow and other packages
+### Installing tensorflow and other packages
 
 Once Conda has been set up install tensorflow with
 
@@ -49,7 +54,6 @@ may need, for example
 conda install scipy 
 ```
 
-
 It's worth reading through the
 [Conda users guide](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html).  Some useful commands are
 
@@ -60,7 +64,7 @@ It's worth reading through the
   * `conda update` updates packages
 
 
-## Running the tensorflow example
+### Running the tensorflow example
 
 This directory contains a simple example `tensorflow.py` that reports on the available devices
 and performs a simple tensor calculation.  To run it on a GPU on the cluster
@@ -90,7 +94,7 @@ When it completes you can check the output with
 cat output/tensorflow_demo.out
 ```
 
-## The wrapper script
+### The wrapper script
 
 Note that `tensorflow_demo.sub` does not call `tensorflow_demo.py` directly.
 This is because the job needs to be set up so that it will run inside the Conda
@@ -99,5 +103,60 @@ a wrapper script, which sets up the environment and then runs the tensorflow
 code.  For most simple applications you should be able to modify
 `tensorflow_wrapper.sh` without modifying the submit file.
 
+
+# Installing with Singularity
+
+First download the container
+
+```bash
+singularity pull docker://tensorflow/tensorflow:latest-gpu
+```
+
+That will provide the basic Tensorflow libraries.  If you need any addition Python 
+libraries these must be installed inside the container.  First enter an interactive session
+with the container with the command
+
+```
+singularity shell tensorflow_latest-gpu.sif
+```
+
+Then install the additional packages with `pip`, for example:
+
+```
+pip install --user scipy
+```
+
+Note the `--user` flag.  After this exit the container with `exit` or Ctrl+d.
+
+
+### Running the tensorflow example
+
+To run the `tensorflow.py` example on a GPU on the cluster using Singularity
+submit it to the cluster with:
+
+
+```bash
+condor_submit tensorflow_demo_singularity.sub
+```
+
+After submitting you can check on the progress with
+
+```bash
+condor_q netid
+```
+
+or monitor it with
+
+```bash
+watch -n 5 condor_q netid
+```
+
+In both cases replace `netid` with your SU Net ID.
+
+When it completes you can check the output with
+
+```bash
+cat output/tensorflow_demo_singularity.out
+```
 
 
