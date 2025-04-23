@@ -4,7 +4,7 @@ output       = output/tensorflow_demo.out
 error        = output/tensorflow_demo.err
 log          = logs/tensorflow_demo.log
 
-Requirements = CUDADeviceName =!= Undefined
+Requirements = CUDADriverVersion >= 12.0
 
 +request_gpus = 1
 
