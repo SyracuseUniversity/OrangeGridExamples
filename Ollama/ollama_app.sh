@@ -1,6 +1,6 @@
 #!/bin/bash
 
-/usr/local/bin/singularity exec --nv ollama.sif /bin/bash <<EOT
+/usr/local/bin/singularity exec --nv ollama_latest.sif /bin/bash <<EOT
 cd $PWD
 ollama serve > output/serve.out 2>&1 &
 SERVE_PID=\$!
