@@ -1,0 +1,11 @@
+executable = run_grobid.sh
+
+output = run_grobid.out
+error  = run_grobid.err
+log    = run_grobid.log
+
+requirements  = (TotalGPUs > 0)
++request_gpus = 1
+
+queue 1
+
