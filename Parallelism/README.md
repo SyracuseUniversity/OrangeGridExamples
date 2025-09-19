@@ -21,7 +21,7 @@ own work, even when not using a purely functional language or style.  Here we
 will focus on two very general and powerful techniques *map* and *reduce*.
 
 
-# Map: changing data
+## Map: changing data
 
 To start, consider the simple problem of squaring every value in an array of 
 integers.  In Python this might naively be done as
@@ -122,7 +122,7 @@ queue
 ```
 
 
-## Multiple arguments
+### Multiple arguments
 
 In this example the square function only needs one value, but what if the 
 problem requires multiplying the values in two arrays?
@@ -176,7 +176,7 @@ Or more compactly using a lambda expression
 ```
 
 
-# Mapping over values with HTCondor
+### Mapping over values with HTCondor
 
 Although HTCondor doesn't exactly have a map function it does provide some 
 powerful mechanisms in the `queue` command which can be thought of as doing the 
