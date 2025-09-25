@@ -242,6 +242,108 @@ will be discussed in a section below on HTCondor *Dagman*.
 
 # Reduce: Combining a set of values into one result
 
-Coming soon!
+Next, consider the problem of adding up a list of values
+
+```python
+
+values = [1,2,4,7,12]
+
+total = 0 
+
+for value in values:
+    total = total + value
+```
+
+This is an example of a general *reduce* pattern that, once you start looking
+for it, turns up everywhere.
+
+```python
+
+values = ...
+
+accumulator = an_initial_value
+
+for value in values:
+    accumulator = some_function(accumulator, value)
+```
+
+The pattern is sometimes hidden, for example, consider an array that contains
+values from 0 to 9 and we want to general a count of how many times each number
+appears
+
+```python
+
+values = ...
+
+accumulator = [0,0,0,0,0,0,0,0,0,0]
+
+for value in values:
+    accumulator[value] += 1
+```
+
+While the step inside the loop doesn't seem to have the right form this is
+because in Python, as in most languages, data structures and variables are
+*mutable*, they can be changed over the course of the computation.  This not
+only hides the reduce pattern but makes it harder to think about parallelism,
+again because if different threads of execution are modifying a data structure
+at the same time they might not happen in the right order, or might overwrite
+each other.  This is another instance where thinking functionally can help, 
+because in functional languages data structures and variables can not be changed
+once created.  In this case that means that we'll have to create a new array 
+each time through the loop.
+
+```python
+
+def increment_counter(array, index_to_increment):
+    return [index == index_to_increment and value+1 or value for index,value in enumerate(array)]
+
+values = ...
+
+accumulator = [0,0,0,0,0,0,0,0,0,0]
+
+for value in values:
+    accumulator = increment_counter(accumulator, value)
+```
+
+Now this fits the general pattern.  This is so common that Python even supplies
+a function, [functools.reduce](https://docs.python.org/3/library/functools.html#functools.reduce),
+to encapsulate it.  The previous example is equivalent to
+
+
+```python
+
+from functools import reduce
+
+def increment_counter(array, index_to_increment):
+    return [index == index_to_increment and value+1 or value for index,value in enumerate(array)]
+
+values = ...
+
+accumulator = reduce(increment_counter, values, [0,0,0,0,0,0,0,0,0,0])
+
+```
+
+## Parallelizing reduce operations
+
+Although there is no built-in `pool.reduce` method we can still think about how
+such operations could be parallelized.  Going back to the example of summing up
+a list, one obvious thing we could do is reduce each half of the array
+separately, possibly in parallel, and then adding the results
+
+```python
+
+from functools import reduce
+from operator import __add__
+
+values = ...
+
+middle_index = len(values)//2
+
+result = reduce(__add__, values[:middle_index], 0) + \
+         reduce(__add__, values[middle_index:], 0) 
+```
+
+The number of parallel reductions could be changed based on the size of the
+problem and the number of available CPUs.
 
 
