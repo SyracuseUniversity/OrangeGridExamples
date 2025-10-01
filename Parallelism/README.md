@@ -347,3 +347,140 @@ The number of parallel reductions could be changed based on the size of the
 problem and the number of available CPUs.
 
 
+## A subtlety and some math
+
+This section can be skipped but is provided for anyone who might find this a useful way
+to think about things.
+
+Extending the idea of splitting into multiple reduce calls to the histogram example 
+would require an auxiliary function to combine the partial results
+
+```python
+
+from functools import reduce
+
+def increment_counter(array, index_to_increment):
+    return [index == index_to_increment and value+1 or value for index,value in enumerate(array)]
+
+def add_arrays(arr1, arr2):
+    return [v[0] + v[1] for v in zip(arr1, arr2)]
+
+values       = ...
+middle_index = len(values)//2
+
+accumulator1 = reduce(increment_counter, values[:middle_index], [0,0,0,0,0,0,0,0,0,0])
+accumulator2 = reduce(increment_counter, values[middle_index:], [0,0,0,0,0,0,0,0,0,0])
+accumulator  = add_arrays(accumulator1, accumulator2)
+
+```
+
+This is because, in general, the type of the accumulator (here `List[int]`) is different
+from the type of the elements of the values list (in this case `int`).  It can be easier
+to reason about reductions when they're the same, because this means that combining the 
+intermediate reductions is *itself* a reduction!  
+
+Consider a list of 40 elements to be added together, split into 4 pieces.  Each piece can be
+reduced independently, then the total is one last reduce.
+
+```python
+
+results = [reduce(__add__, values[ 0:10], 0),
+           reduce(__add__, values[10:20], 0),
+           reduce(__add__, values[20:30], 0),
+           reduce(__add__, values[30:40], 0)]
+
+result = reduce(__add__, results, 0)
+```
+
+There's an elegant way to express when this is possible.
+
+A *monoid* is a set, denoted `S` and an operator denoted `•` with the
+following properties:
+
+  * For all elements *a* and *b* in `S`, *a • b* is also an element of `S`
+  * There is an special element called the identity denoted `e` such that, 
+    for all *a* in `S` *a • e = e • a = a*
+  * The operator is associative, for all *a,b,c* in `S`,
+    *(a • b) • c = a • (b • c)*.  This means we can ignore parenthesis.
+
+Note that it is *not* necessary that *a • b = b • a*.
+
+Some examples:
+
+  * Integers with addition, the identity element is 0
+  * Strings with string concatenation, the identity element is the empty string ""
+  * Booleans with `and`, the identity element is `True` 
+
+Employing this language we can say that reduce operations have the simplest and
+most flexible form when operating on a monoid.  In pseudo-Python
+
+```python
+
+values : List[S] = ...
+identity : S = ...
+
+result = reduce(•, values, identity)
+```
+
+If the problem isn't intrinsically in this form it can sometimes be possible
+and useful to first convert the elements in the `values` array to the type of
+the accumulator, which can often be done via `map`.  For the histogram example:
+
+```python
+
+from functools import reduce
+
+def value_to_array(value):
+    return [index == value and 1 or 0 for index in range(0,10)]
+
+def add_arrays(arr1, arr2):
+    return [v[0] + v[1] for v in zip(arr1, arr2)]
+
+values        = ...
+monoid_values = map(value_to_array, values)
+middle_index  = len(values)//2
+
+accumulator1 = reduce(add_arrays, monoid_values[:middle_index], [0,0,0,0,0,0,0,0,0,0])
+accumulator2 = reduce(add_arrays, monoid_values[middle_index:], [0,0,0,0,0,0,0,0,0,0])
+accumulator  = add_arrays(accumulator1, accumulator2)
+
+```
+
+This now has exactly the same form as the list summation example.
+
+
+# Structuring HTCondor jobs with DAGMan
+
+As we move into more complex combinations of map and reduce we'll need a
+mechanism to structure the whole computation workflow.  As an example, when
+splitting a reduction into several pieces we need to first do each of the
+sub-reductions, then combine them into the final result.  HTCondor
+provides a tool named [DAGMan](https://htcondor.readthedocs.io/en/latest/automated-workflows/dagman-introduction.html) 
+which handles this.
+
+DAGMan process a "directed acyclic graph" (DAG) describing the relationship 
+between jobs.  This is taken from the documentation, but consider a job A that 
+sets up some data, jobs B and C which process that data in parallel, and then
+a final job D that combines the result.  This relationship looks like
+
+![Image of four jobs in a diamond configuration](./images/dagman.png)
+
+
+The corresponding DAG file is
+
+```
+# File name: diamond.dag
+
+JOB A A.sub
+JOB B B.sub
+JOB C C.sub
+JOB D D.sub
+PARENT A CHILD B C
+PARENT B C CHILD D
+```
+
+The first four lines name the jobs and give corresponding submit files.  Then
+the first PARENT line says that job A must be run before jobs B and C, and the
+second says that jobs B and C must be run before D.
+
+
