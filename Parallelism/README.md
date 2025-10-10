@@ -458,7 +458,7 @@ sub-reductions, then combine them into the final result.  HTCondor
 provides a tool named [DAGMan](https://htcondor.readthedocs.io/en/latest/automated-workflows/dagman-introduction.html) 
 which handles this.
 
-DAGMan process a "directed acyclic graph" (DAG) describing the relationship 
+DAGMan processes a "directed acyclic graph" (DAG) describing the relationship 
 between jobs.  This is taken from the documentation, but consider a job A that 
 sets up some data, jobs B and C which process that data in parallel, and then
 a final job D that combines the result.  This relationship looks like
@@ -482,5 +482,159 @@ PARENT B C CHILD D
 The first four lines name the jobs and give corresponding submit files.  Then
 the first PARENT line says that job A must be run before jobs B and C, and the
 second says that jobs B and C must be run before D.
+
+## Map in DAGman
+
+In this model a map operation can be as simple as
+
+```
+JOB A A.sub
+JOB B B.sub
+JOB C C.sub
+JOB D D.sub
+...
+```
+
+as there is no dependancy between jobs.  Even simpler, it is often possible to use a single
+submit file with a parameter.  If we have a simple Python program, `square.py` that squares its argument
+
+```python
+import sys
+
+n=int(sys.argv[1])
+print(n * n)
+```
+
+and a corresponding submit file, `square.sub` that uses a parameter as the argument
+
+```
+executable = square.py
+argument   = $(value)
+```
+
+Then the dag file could be
+
+```
+JOB A square.sub
+JOB B square.sub
+JOB C square.sub
+
+VARS A value=6
+VARS B value=10
+VARS C value=23
+...
+```
+
+## Reduce in DAGman
+
+Here things start to get a little more complicated.  We'll need one job for each
+sub-reduce operation, these will act as the parent to a job that combines the results.
+For the example of summing a list of numbers, we'll use a Python program that takes 
+as arguments the name of a file with the values, the index of the first row to include,
+and the index of the final row to include
+
+```python
+
+import sys
+
+filename  = sys.argv[1]
+first_row = int(sys.argv[2])
+last_row  = int(sys.argv[3])
+
+data      = [int(l.strip()) for l in open(filename)]
+result    = sum(data[first_row:last_row])
+
+print(result)
+```
+
+The submit file will be
+
+```
+executable = sum.py
+arguments  = $(filename) $(first_row) $(last_row)
+
+output     = out_$(id).dat
+```
+
+and to start with the dag will look like this, if the data file has 10 rows and we split
+it into two equal pieces
+
+```
+JOB A sum.sub
+JOB B sum.sub
+
+VARS A filename="values.dat", id="001", first_row=0, last_row=5
+VARS B filename="values.dat", id="002", first_row=5, last_row=10
+```
+
+The next step is to combine the sub results, and here's where we can use the
+fact that integers under addition form a monoid to make things easy!  To
+combine the results we just need to combine the result files into a single new
+data file, then use the same python and submit files to sum it.  The combination can be
+done with an auxiliary shell file
+
+```bash
+
+ls -1 out_*.dat | sort | xargs cat > intermediate.dat
+```
+
+The final dag file then looks like
+
+```
+JOB A sum.sub
+JOB B sum.sub
+JOB C combine_lines.sub
+JOB D sum.sub
+
+VARS A filename="values.dat", id="001", first_row=0, last_row=5
+VARS B filename="values.dat", id="002", first_row=5, last_row=10
+VARS D filename="intermediate.dat", id="final", first_row=0, last_row=2
+
+PARENT A B CHILD C
+PARENT C   CHILD D
+```
+
+# Putting it together: adding up a list of squares
+
+As the last section showed, dag files can get large quickly even for simple tasks.
+Users will rarely write dag files by hand, instead usually a program is used to 
+generate the dag file based on the "shape" of the data, for example the length of a
+list to be processed.
+
+This directory includes a `generate_dag.py` example, it takes a list of numbers
+as arguments.  Each number is squared in a separate map operation, then the
+total is computed by splitting the list into groups of five numbers.  This
+splitting is hierarchical, if asked to work on 10 numbers there will be 10 map
+jobs and three reduce jobs (one for the first five numbers, one for the second
+five numbers, and one for the resulting two numbers).  If asked to work on 35
+numbers there will be 30 map jobs and 9 reduce jobs (one for each initial group
+of 5 numbers making a group of 7, one for the first five in this new group and
+one for the last two in the new group, giving another new group of 2, and then
+one last one adding these final two).
+
+You can see it in operation with, for example
+
+```bash
+
+python3 generate_dag.py 1 2 3 4 5 10 11 > sum_squares.dag
+condor_submit_dat sum_squares.dag
+```
+
+After running the result will be in `FINAL.dat`
+ 
+One nice feature of DAGMan is that it can generate a visual representation of
+the jobs and their dependancies.  This image can even be made to update
+as jobs complete.  This image is initially in the `dot` format of [Graphviz](https://graphviz.org/),
+which can be installed through [Conda](https://anaconda.org/anaconda/graphviz).  The image
+can be converted to a png with the command
+
+```bash
+dot -Tpng:cairo:gd sum_squares.dot -o sum_squares.png
+```
+
+In this case this results in this image:
+
+![Dependancies between 8 map jobs and 3 reduce jobs](./images/sum_squares.png)
+
 
 
