@@ -634,7 +634,160 @@ dot -Tpng:cairo:gd sum_squares.dot -o sum_squares.png
 
 In this case this results in this image:
 
-![Dependancies between 8 map jobs and 3 reduce jobs](./images/sum_squares.png)
+![Dependencies between 8 map jobs and 3 reduce jobs](./images/sum_squares.png)
 
 
+## Conclusion: thinking paralelly
+
+As a final example let's look at matrix multiplication.  As a reminder from 
+Wikipedia [matrix multiplication](https://en.wikipedia.org/wiki/Matrix_multiplication) is defined as:
+
+If _A_ is an m × n matrix and _B_ is an n × p matrix, 
+
+![Definition of the matrices A and B](./images/matrix1.svg)
+
+
+the matrix product _C = AB_ (denoted without multiplication signs or dots) is defined to be the m × p matrix
+
+
+![Definition of the matrix C](./images/matrix2.svg)
+
+such that
+
+![Definition of the matrix product C = AB](./images/matrix2.svg)
+
+
+In straightforward Python code this would be implemented as follows 
+(note that the order of the indices is correct, in 
+mathematical notation A<sub>i,j</sub> means the i'th row  and j'th
+column, whereas in Python `A[i][j]`  it's the same)
+
+```python
+A = [[1,2,3],
+     [4,5,6],
+     [7,8,9]]
+
+B = [[2,4,6],
+     [1,3,5],
+     [9,8,7]]
+
+C = [[0 for _ in range(len(A[0]))] for _ in range(len(B))]
+
+for i in range(len(A)):
+    for j in range(len(B[0])):
+        for k in range(len(B)):
+            C[i][j] += A[i][k] * B[k][j]
+```
+
+
+As a general rule, whenever a program has a loop there's likely to be a candidate
+for parallelization, if a value is being modified on each iteration then there may
+be an opportunity to use reduce, and if not then there may be an opportunity for map.
+
+Looking at the innermost loop over `k`, there are two patterns we've seen before; 
+the product of two lists, and a sum over a list.  This suggests rewriting as
+
+```python
+
+from functools import reduce
+from operator import __add__
+
+A = [[1,2,3],
+     [4,5,6],
+     [7,8,9]]
+
+B = [[2,4,6],
+     [1,3,5],
+     [9,8,7]]
+
+C = [[0 for _ in range(len(A[0]))] for _ in range(len(B))]
+
+for i in range(len(A)):
+    for j in range(len(B[0])):
+        pairs    = [(A[i][k], B[k][j]) for k in range(len(B))]
+        products = map(lambda v:v[0]*v[1], pairs)
+        C[i][j]  = reduce(__add__, products, 0)
+```
+
+At the outer level there are nested loops over i and j, and certainly this could
+be turned into nested calls to map.  However in this case it makes things somewhat
+simpler to note that the effect of these loops is to iterate over all combinations
+of i and j, that is, all pairs of (i,j).
+
+```python
+
+indicies = [(i,j) for i in range(len(A)) for j in range(len(B[0]))]
+
+for i,j in indicies:
+    pairs    = [(A[i][k], B[k][j]) for k in range(len(B))]
+    products = map(lambda v:v[0]*v[1], pairs)
+    C[i][j]  = reduce(__add__, products, 0)
+```
+
+This now looks a little more like previous map examples, although with one 
+difference.  Previous examples have transformed the values in one list into
+values in the result,
+
+```python
+
+def isEven(x):
+    return x % 2 == 0
+
+maybeEven = map(isEven,[1,2,3,4])
+```
+
+turns a list of ints into a list of bools.  In this case however
+what is being transformed is the list of index pairs *in the context or A and B*.
+This isn't a huge difference, but it does mean that the context needs to be
+included in the map.
+
+```python
+
+def handleOneEntry(A, B, index):
+    i,j      = index
+    pairs    = [(A[i][k], B[k][j]) for k in range(len(B))]
+    products = map(lambda v:v[0]*v[1], pairs)
+    
+    return reduce(__add__, products, 0)
+
+indicies = [(i,j) for i in range(len(A)) for j in range(len(B[0]))]
+entries  = map(lambda index: handleOneEntry(A, B, index), indicies)
+```
+
+There is then just one final step, `entries` will contain a single 
+list where we want C to be a list of lists representing a matrix.  
+Adding this gives the final version of the program.
+
+```python
+
+from functools import reduce
+from operator import __add__
+
+A = [[1,2,3],
+     [4,5,6],
+     [7,8,9]]
+
+B = [[2,4,6],
+     [1,3,5],
+     [9,8,7]]
+
+def handleOneEntry(A, B, index):
+    i,j      = index
+    pairs    = [(A[i][k], B[k][j]) for k in range(len(B))]
+    products = map(lambda v:v[0]*v[1], pairs)
+    
+    return reduce(__add__, products, 0)
+
+indicies = [(i,j) for i in range(len(A)) for j in range(len(B[0]))]
+entries  = map(lambda index: handleOneEntry(A, B, index), indicies)
+C        = [[entries[i*len(B[0])+j] for j in range(len(B[0]))] for i in range(len(A))]
+
+```
+
+Although functional programs can often be both more concise and easier to
+understand than their imperative or object-oriented alternatives it would be
+hard to argue that that is the case here!  However, this does position the code
+to be run efficiently with HTCondor, and although this example is rather
+artificial in real code these kinds of code transformations can reduce the run
+time of a program from days to under an hour.
 
