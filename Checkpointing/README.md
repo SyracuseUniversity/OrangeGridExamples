@@ -249,5 +249,5 @@ Look for an additional document in the this repository describing techniques for
 taking advantage of this kind of parallelism, to be added shortly.
 
 ---
-Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
 

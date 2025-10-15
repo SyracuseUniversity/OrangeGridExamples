@@ -39,5 +39,5 @@ cat output/hostname.out
 It will contain the name of the node where HTCondor placed the job.
 
 ---
-Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
 

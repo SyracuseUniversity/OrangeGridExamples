@@ -112,5 +112,5 @@ Requirements = CUDADriverVersion >= 12.0
 ```
 
 ---
-Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
 

@@ -93,5 +93,5 @@ simple Python applications you should be able to modify `conda_wrapper.sh` witho
 file.
 
 ---
-Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
 
