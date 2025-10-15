@@ -55,3 +55,6 @@ When it completes you can check the output with
 cat output/ollama_app.out
 ```
 
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+

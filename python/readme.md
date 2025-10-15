@@ -92,8 +92,6 @@ files therefor calls a wrapper script, which sets up the environment and then ru
 simple Python applications you should be able to modify `conda_wrapper.sh` without modifying the submit
 file.
 
-
-
- 
-
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
 

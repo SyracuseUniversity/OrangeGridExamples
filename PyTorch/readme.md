@@ -111,4 +111,6 @@ where it can it's necessary to set the requirements line in the submit file to
 Requirements = CUDADriverVersion >= 12.0
 ```
 
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
 

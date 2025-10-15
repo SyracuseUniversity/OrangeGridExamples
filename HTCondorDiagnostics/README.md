@@ -50,3 +50,7 @@ List jobs waiting for a GPU and for how long.
 ```bash
 condor_q -all -global -idle -constraint 'request_gpus' -autoformat:j owner "formatTime(EnteredCurrentStatus)" 2>/dev/null
 ```
+
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+

@@ -114,4 +114,6 @@ code.  For most simple applications you should be able to modify
 `tensorflow_wrapper.sh` without modifying the submit file.  Note also that the 
 submit file requires
 
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
 

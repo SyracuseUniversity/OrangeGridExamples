@@ -22,3 +22,8 @@ condor_submit blender.sub
 # Check your queue:
 condor_q netid
 ```
+
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+
+

@@ -39,3 +39,6 @@ Download some pdfs into `pdfin`.  You should now be able to
 condor_submit run_grobid.sub
 ```
 
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+

@@ -39,3 +39,7 @@ When it completes you can check the outputs with
 ```bash
 cat output/demo_*.out
 ```
+
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu).
+

@@ -94,7 +94,7 @@ simple Octave applications you should be able to modify `conda_wrapper.sh` witho
 file.
 
 
-
- 
+---
+Please email any questions or comments about this document to [Research Computing](mailto:researchcomputing@syr.edu). 
 
 
