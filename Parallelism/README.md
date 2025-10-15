@@ -13,7 +13,7 @@ can change during the program's run then data management becomes much more
 difficult since different parts or steps of the code must be aware of each other 
 and somehow coordinate their access to these structures.  This document 
 therefore focuses on techniques adapted from
-[functional programming](https://en.wikipedia.org/wiki/Functional_programming) 
+[functional programming](https://en.wikipedia.org/wiki/Functional_programming).
 
 While a full discussion of this topic is outside the current scope, readers may 
 wish to familiarize themselves with some of the ideas for application in their 
@@ -54,6 +54,7 @@ function to another function may seem weird, but in Python a function is just a
 take a function as an argument or return a new function, just as a function can 
 take a string as an argument or return a new string.  This ability to treat 
 functions as *first-class objects* is a key insight from functional programming.  
+
 The code written using map looks like this:
 
 ```python
@@ -80,7 +81,7 @@ new_array = map(square, [1,2,6,12,18])
 So if functions are treated the same as anything else it should be possible to 
 create one without giving it a name.  This is done through the *lambda* keyword
 (the name comes from [lambda 
-calculus](https://en.wikipedia.org/wiki/Lambda_calculus) , a mathematical 
+calculus](https://en.wikipedia.org/wiki/Lambda_calculus), a mathematical 
 formulation of functional programming.
 
 ```python
@@ -137,10 +138,10 @@ for i in range(len(array1)):
     result.append(array1[i] * array2[i])
 ```
 
-As the saying goes, when all you have is a hammer everything looks like a nail.  
-If all you have is a way of dealing with functions that take only one argument, 
-then make all your data look like a single value!  In this case two lists can be 
-transformed into one list of two values with the zip function
+As the saying goes, when all you have is a hammer everything looks like a nail.
+If all you have is a way of dealing with functions that take only one argument,
+then make all your data look like a single value!  In this case two lists can
+be transformed into one list of two values with the zip function
 
 ```python
 
@@ -374,7 +375,7 @@ accumulator  = add_arrays(accumulator1, accumulator2)
 
 ```
 
-This is because, in general, the type of the accumulator (here `List[int]`) is different
+This is because, in general, the type of the accumulator (here `list[int]`) is different
 from the type of the elements of the values list (in this case `int`).  It can be easier
 to reason about reductions when they're the same, because this means that combining the 
 intermediate reductions is *itself* a reduction!  
