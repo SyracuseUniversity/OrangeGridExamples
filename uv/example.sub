@@ -1,0 +1,11 @@
+executable   = PATH_TP_UV
+arguments    = run example.py
+output       = example.out
+error        = example.err
+log          = example.log
+
+Requirements = CUDADriverVersion >= 12.0
+
++request_gpus = 1
+
+queue 1
