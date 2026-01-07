@@ -4,34 +4,31 @@ This is a simple example of running a basic Julia program under HTCondor. This e
 single CPU and can serve as a template for Julia programs that may require additional packages.
 For GPU examples using Julia, the setup is similar but requires adding CUDA.jl to your environment.
 
+**Note:** Julia uses just-in-time (JIT) compilation, so the first run of any script will be
+slower while packages are compiled. For this simple demo, expect 2-5 minutes of startup time.
+For long-running research jobs this overhead is negligible, but it can be surprising for
+short scripts. See the Julia-specific considerations section below for more details.
+
 
 ## Installing Conda
 
-For most Julia users we recommend installing Julia through [Conda](https://github.com/conda-forge/miniforge) and
-using that to manage your environment. To install Conda:
+For most Julia users we recommend installing Julia through [Miniforge](https://github.com/conda-forge/miniforge)
+and using Conda to manage your environment.
+
+Download and run the installer:
 
 ```bash
-wget https://github.com/conda-forge/miniforge/releases/download/24.7.1-0/Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh
-
-bash Miniforge-pypy3-24.7.1-0-Linux-x86_64.sh  -b -p $HOME/miniforge3
-eval "$(${HOME}/miniforge3/bin/conda shell.bash hook)"
-conda init
+wget "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+bash Miniforge3-$(uname)-$(uname -m).sh -b
 ```
 
-In order to make Conda available automatically when you log into the cluster
-you will also need to add the following to your `~/.bash_profile`
+Then initialize Conda:
 
 ```bash
-if [ -e ${HOME}/.bashrc ]
-then
-    source ${HOME}/.bashrc
-fi
+~/miniforge3/bin/conda init
 ```
 
-Here is some information on
-[the difference between bashrc and bash_profile](https://linuxize.com/post/bashrc-vs-bash-profile/)
-
-After making these changes log out and log back in.
+After running `conda init`, log out and log back in for the changes to take effect.
 
 
 ## Installing Julia and additional packages
@@ -87,7 +84,6 @@ or monitor it with
 ```bash
 watch -n 5 condor_q $USER
 ```
-
 
 When it completes you can check the output with
 
