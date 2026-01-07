@@ -1,4 +1,5 @@
-executable   = conda_wrapper.sh
+executable   = /bin/bash
+arguments    = conda_wrapper.sh
 
 output       = output/julia_demo.out
 error        = output/julia_demo.err
