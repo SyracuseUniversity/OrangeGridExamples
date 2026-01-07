@@ -103,10 +103,9 @@ be able to modify `conda_wrapper.sh` without modifying the submit file.
 
 ## Julia-specific considerations
 
-Julia has a notable "time to first plot" issue where the first run of code is slower
-due to just-in-time compilation. For long-running batch jobs this is usually not a concern,
-but for short jobs you may want to consider using PackageCompiler.jl to create a custom
-system image with your dependencies precompiled.
+Julia uses just-in-time (JIT) compilation, so the first run of any script is slower
+while packages are compiled. For long-running batch jobs this overhead is negligible.
+Subsequent runs are faster if Julia's package cache in `~/.julia` is preserved.
 
 ---
 Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
