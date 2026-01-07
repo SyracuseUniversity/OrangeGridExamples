@@ -36,31 +36,19 @@ After running `conda init`, log out and log back in for the changes to take effe
 Once Conda is set up, create an environment with Julia:
 
 ```bash
-conda create -n julia conda-forge::julia
+conda create -y -n julia conda-forge::julia
 conda activate julia
 ```
 
-Julia has its own package manager for Julia-specific packages. To add packages,
-start Julia interactively and use the Pkg module:
+Julia has its own package manager for Julia-specific packages. To add packages
+from the command line:
 
 ```bash
-julia
-```
+julia -e 'using Pkg; Pkg.add(["LinearAlgebra", "Statistics"])'
 
-Then at the Julia prompt:
+# For GPU support, you would add the CUDA package:
 
-```julia
-using Pkg
-Pkg.add("LinearAlgebra")
-Pkg.add("Statistics")
-```
-
-Press Ctrl-D to exit Julia.
-
-For GPU support, you would add the CUDA package:
-
-```julia
-Pkg.add("CUDA")
+julia -e 'using Pkg; Pkg.add("CUDA")'
 ```
 
 
