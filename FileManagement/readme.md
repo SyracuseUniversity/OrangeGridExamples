@@ -272,9 +272,106 @@ np.sum(f["/data/results"])
 
 ## Combining the output from several jobs into one HDF5 file
 
-(TODO.  Discuss expandable arrays)
+Thus far these examples have only considered a single process producing a fixed
+amount of data, but in realistic situations the size of data to be generated
+may not be known in advance, and when possible it will always be more efficient on
+HTCondor to split tasks into multiple independent processes (see the document
+on [parallelization](../parallelization) for more on this).
+
+The naive approach to combining results would be for every job to write its data
+to the same file, perhaps in a different dataset in an attempt to avoid conflicts:
+
+```python
+my_id = sys.argv[1]
+
+with h5py.File("mytestfile.hdf5", "a") as f:
+    results_data = f.create_dataset(f"/{my_id}/results", (10,) dtype='f')
+    ...
+```
+
+However this won't work.  It is possible, with some care, to have one process
+writing to an HDF5 file while other processes read from it, but even when
+writing to different datasets HDF5 does not support multiple simultaneous 
+writers.  For more on this see
+
+  * This [Reddit post](https://stackoverflow.com/questions/34906652/does-hdf5-support-concurrent-reads-or-writes-to-different-files)
+  * HDF5's documentation on [single writer, multiple readers](https://support.hdfgroup.org/documentation/hdf5/latest/_s_w_m_r_t_n.html)
+  * This [example](https://github.com/h5py/h5py/blob/master/examples/multiprocessing_example.py) of using HDF5 with multiprocessing
+
+Instead, a useful pattern is to have each job write its own file as usual, but
+then have a concatenation and cleanup job that combines the results into a single
+HDF5 file and deletes the original files.  For example, consider the example with the
+nested loops from above, rewritten so that each iteration is run as its own job.
+
+```python
+x,y,z = [float(v) for v in sys.argv[1:]]
+
+value    = some_calculation(x,y,z) 
+filename = f"{x:.3f}_{y:03d}_{z:03d}.dat"
+with open(filename,"w") as f_out:
+    print(value,file=f_out)
+```
+
+The cleanup process would then look something like this:
+
+```python
+import sys
+import os
+import h5py
+
+base_directory = sys.argv[1]
+dir_list       = [f for f in os.listdir(base_directory) if f.endswith('.dat')]
+
+with h5py.File("mytestfile.hdf5", "a") as f_out:
+    x_values = f_out.create_dataset("unlimited", f"/data/x", (10,) dtype='f')
+    y_values = f_out.create_dataset("unlimited", f"/data/y", (10,) dtype='f')
+    z_values = f_out.create_dataset("unlimited", f"/data/z", (10,) dtype='f')
+    results  = f_out.create_dataset("unlimited", f"/data/results", (10,) dtype='f')
+
+    count  = 0
+
+    for f in dir_list:
+        x,y,z  = [float(v) for v in f[:-4].split('_')]
+        result = float(open(f).readline().strip())
+
+        x_values[count] = x
+        y_values[count] = y
+        z_values[count] = z
+        result_values[count] = result
+
+        count += 1
+
+        try:
+            os.remove(f)
+        except:
+            print("Unable to delete file", f)
+```
+
+Here the data sets are created with the `"unlimited"`  keyword, allowing them to grow
+up to the maximum size allowed by HDF5, 2^64 elements per axis.  It is also possible 
+to manually specify a smaller maximum using the `"resizable"` keyword, for more see the
+[resizeable datasets](https://docs.h5py.org/en/stable/high/dataset.html#resizable-datasets)
+section of the documentation.
+
+This process could be run manually once a batch of jobs has completed but an even better
+approach would be to use DAGMan to automatically run the cleanup job after all other
+jobs have completed.  See the [parallelization](../parallelization) document for more
+information on DAGMan.
+
 
 # SQLite
 
-TODO
+HDF5 excels in situations involving large amounts of homogeneous data that
+naturally fits into a 2 or 3 dimensional grid, such as the brightness of each
+pixel in an image or the density of each cell in a fluid dynamic simulation.
+
+```python
+import sqlite3
+
+connection = sqlite3.connect("mytestfile.db")
+cursor     = con.cursor()
+
+cursor.execute("CREATE TABLE experiment(xvalue, yvalue, zvalue, result1, result2)")
+```
+
 
