@@ -1,5 +1,8 @@
 # PyTorch
 
+**UPDATE**: PyTorch with COnda tends to be unstable, while these instructions may still work in general we now reccommend using [uv](../uv/) to
+install python packages.
+
 PyTorch is a large, complex toolkit with a lot of dependancies.  We therefore recommend using
 [Conda](https://github.com/conda-forge/miniforge) to install it.
 
