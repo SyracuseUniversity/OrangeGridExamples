@@ -50,6 +50,26 @@ use case.  We are always available to assist in crafting a data management plan
 suited for particular workflows, just email [Research Computing](mailto:researchcomputing@syr.edu)
 to set up a meeting.
 
+As a broad outline data may fall into any of four categories and each has 
+a container format that is well suited to it:
+
+  * For data consisting of large arrays, possibly multi-dimensional, where every
+    entry is the same type (int, float, double etc) use HDF5
+  * For data consisting of multiple copies of some kind of "records" where a record
+    may contain mixed types of data (for example a person's name, year of birth, height 
+    represented as a tuple of (string, int, float)) use SQLite.
+  * For data that is uniform but may be more complex and nested (things that could be
+    represented as JSON) either use multiple tables in SQLite or an object store.  (TODO:
+    fill this out, some possible candidates are [object store](https://pypi.org/project/object-store-python/)
+    and [ObjStore](https://developmentseed.org/obstore/latest/getting-started))
+  * Finally, for results that consist of multiple free-form documents such as a collection of
+    LLM outputs with different models or prompts, use zip files.  Although many people are used
+    to thinking of zip files as just a way of moving multiple files from one place to another,
+    they can also be used programatically without much more overhead than working directly with
+    the filesystem, and compression and coherence of a whole dataset comes for free.  See the documentation
+    for the Python interface [here](https://docs.python.org/3/library/zipfile.html).
+
+
 One last side note, even for projects that will produce a relatively small
 number of files one of these other approaches may be worth considering.  In
 addition to reducing the burden on the file system keeping all output data in a
