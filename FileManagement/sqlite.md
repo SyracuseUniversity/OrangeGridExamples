@@ -182,6 +182,41 @@ table, but the resulting database will be far smaller on disk.  As always, each
 researcher needs to choose which trade offs to make for their own workflows.
 
 
+## Speeding up data access with indices 
+
+Consider a query to find all authors whose last name is Doe:
+
+```sql
+SELECT * FROM authors WHERE last_name = "Doe";
+```
+
+By default this will need to search through every record in the database and
+check the last name field.  Of course any one check will take a fraction of a
+second, but as the database grows this can mount up to make queries painfully
+slow, and this problem compounds significantly when doing complex queries
+across multiple tables with multiple join conditions.
+
+SQL database solve this problem with `indicies`, very efficient data structures
+that essentially "pre compute" a search or component of a search.  In sqlite
+an index is created as
+
+```sql
+CREATE INDEX authors_last_name
+ON authors(last_name);
+```
+
+It is a convention, although not mandatory, to name the index with the table
+name, and underscore, and then the column name.
+
+With this index in place the query now no longer needs to search through 
+every row, instead it just looks up "Doe" in the index and can immediately
+return all the appropriate rows.
+
+Using indices does make writing new data somewhat slower, as the index data
+structures need to be updated.  However in most cases, the benefits gained
+when reading data are worth it.
+
+
 ## Calling SQLite from Python
 
 The interface to SQLite is fairly "light" in that the same SQL commands are used.
