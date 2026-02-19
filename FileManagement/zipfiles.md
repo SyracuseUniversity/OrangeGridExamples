@@ -87,10 +87,9 @@ print(total)
 ```
 
 
-    
+It is also possible to write new entries into a zip file:
 
-the output
-of an LLM at different stages of training or from different prompts.  
-
-  See the documentation
-    for the Python interface [here](https://docs.python.org/3/library/zipfile.html).
+```python
+with ZipFile('all_results.zip','a') as myzip:
+    myzip.write('/new/entry/data.txt', 'some new data')
+``` 
