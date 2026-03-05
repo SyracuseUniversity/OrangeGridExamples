@@ -92,6 +92,11 @@ files therefor calls a wrapper script, which sets up the environment and then ru
 simple Python applications you should be able to modify `conda_wrapper.sh` without modifying the submit
 file.
 
+## What to read next
+
+There are also documents on how to [parallelize](../Parallelism) code to make optimal use of the clsuter
+and how to use specialized [file formats](../FileManagement) to optimize data storage and access. 
+
 ---
 Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
 

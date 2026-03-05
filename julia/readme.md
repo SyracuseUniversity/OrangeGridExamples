@@ -95,5 +95,10 @@ Julia uses just-in-time (JIT) compilation, so the first run of any script is slo
 while packages are compiled. For long-running batch jobs this overhead is negligible.
 Subsequent runs are faster if Julia's package cache in `~/.julia` is preserved.
 
+## What to read next
+
+There are also documents on how to [parallelize](../Parallelism) code to make optimal use of the clsuter
+and how to use specialized [file formats](../FileManagement) to optimize data storage and access.
+
 ---
 Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
