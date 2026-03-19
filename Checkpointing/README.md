@@ -148,7 +148,8 @@ start_time = int(time.time())
 
 current_time = int(time.time())
 
-if (current_time - start_time) % 100 == 0:
+if (current_time - start_time) > 100:
+	start_time = current_time
     # Checkpoint
 
 ```
@@ -243,10 +244,8 @@ that checkpointing probably isn't needed if a program is only going to run for
 possible, to split it into 60 programs that each run for 10 minutes.  Not only 
 does this eliminate the need for checkpointing, but obviously the total time to 
 run is much less.  This also plays to the core strength of HTCondor and "high 
-throughput" computing in general.
-
-Look for an additional document in the this repository describing techniques for 
-taking advantage of this kind of parallelism, to be added shortly.
+throughput" computing in general.  See the document on [paralleization strategies](../Parallelism)
+for some techniques and strategies.
 
 ---
 Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
