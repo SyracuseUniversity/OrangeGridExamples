@@ -1,0 +1,5 @@
+executable = add.py
+arguments  = $(id) $(value)
+
+queue
+

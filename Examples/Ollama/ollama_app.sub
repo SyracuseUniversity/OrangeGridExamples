@@ -1,0 +1,10 @@
+executable = ollama_app.sh
+
+output = output/ollama_app.out
+error  = output/ollama_app.err
+log    = logs/ollama_app.log
+
+Requirements = TotalGPUS > 0
++request_gpus = 1
+
+queue

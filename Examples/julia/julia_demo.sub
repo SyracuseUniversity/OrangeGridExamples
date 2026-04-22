@@ -1,0 +1,8 @@
+executable   = /bin/bash
+arguments    = conda_wrapper.sh
+
+output       = output/julia_demo.out
+error        = output/julia_demo.err
+log          = logs/julia_demo.log
+
+queue 1

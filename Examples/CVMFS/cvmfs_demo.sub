@@ -1,0 +1,9 @@
+executable   = cvmfs_wrapper.sh
+
+output       = output/cvmfs_demo.out
+error        = output/cvmfs_demo.err
+log          = logs/cvmfs_demo.log
+
+requirements = hasCVMFS
+
+queue 1

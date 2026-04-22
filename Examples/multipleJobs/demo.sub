@@ -1,0 +1,10 @@
+executable = demo.sh
+arguments  = $(arg1) $(arg2)
+
+output = output/demo_$(Process).out
+error  = output/demo_$(Process).err
+log    = output/demo_$(Process).log
+
+queue arg1, arg2 from demo.dat
+
+

@@ -1,0 +1,7 @@
+executable   = conda_wrapper.sh
+
+output       = output/r_demo.out
+error        = output/r_demo.err
+log          = logs/r_demo.log
+
+queue 1

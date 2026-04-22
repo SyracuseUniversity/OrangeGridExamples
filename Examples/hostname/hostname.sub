@@ -1,0 +1,7 @@
+executable   = /bin/hostname
+
+output       = output/hostname.out
+error        = output/hostname.err
+log          = logs/hostname.log
+
+queue 1

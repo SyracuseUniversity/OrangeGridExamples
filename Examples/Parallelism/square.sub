@@ -1,0 +1,4 @@
+executable = square.py
+arguments  = $(id) $(value)
+
+queue
