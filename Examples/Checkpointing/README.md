@@ -159,6 +159,64 @@ a method is in part a decision based on the nature of the program and in part
 personal preference.
 
 
+## Predicting the amount of lost work
+
+If checkpointing is done based on number of iterations then in general there is
+no way to predict how much work might be lost if the program is interrupted
+before it completes.  In the very worst case the program might be removed just
+before it writes the next checkpoint, in which case one complete iteration will
+be lost.  This could represent ten minutes' work or several days dependending on
+how long each iteration takes.  This suggests that if iterations are likely to
+be long or expensive that time based checkpointing might be better, but there is
+no hard and fast rule.
+
+However if a program is using time-based checkpointing then it is possible to
+calculate the *expected value* of lost work, that is, on average how much work
+will be lost over a large ensamble of identical programs.
+
+For a finite set of possibilities the expected value is
+
+```math
+
+\sum_{\bf options i} i P(i)
+```
+
+where $ P(i) $ is the probability of the option i occuring.  In the continuum
+limit this becomes
+
+```math
+
+\int x P(x) dx
+```
+
+where now $ P(x) $ is a probability denisty.
+
+In the case of checkpointing, say that the program checkpoints every $ N $
+minutes and that the program may be preempted at any time.  To determine the
+probability density function it is first necessary to find the normalization
+constant such that the total probability is one.  In this case the distribution
+is uniform between 0 and N so we need to find C such that
+
+```math
+
+C \int_0^N dx = 1
+```
+
+This straightforwardly gives $ C = 1/N $ (which can also immediately be seen
+from the fact that for a rectangle of base $N$ to have an area of 1 the height
+must be $1/N$).
+
+The expected value is then
+
+```math
+
+(1/N) \int_0^N x dx = N/2
+```
+
+So on average $N/2$ minutes of work will be lost, which is what would be
+expected by symmetry.
+
+
 ## What counts as program "state"?
 
 As a general rule programs will need preserve all information that they require 
