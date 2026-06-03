@@ -178,20 +178,20 @@ For a finite set of possibilities the expected value is
 
 ```math
 
-\sum_{\bf options i} i P(i)
+\sum_{\bf options\, i} i P(i)
 ```
 
-where $ P(i) $ is the probability of the option i occuring.  In the continuum
+where $`P(i)`$ is the probability of the option i occuring.  In the continuum
 limit this becomes
 
 ```math
 
-\int x P(x) dx
+\int x P(x)\, dx
 ```
 
-where now $ P(x) $ is a probability denisty.
+where now $`P(x)`$ is a probability denisty.
 
-In the case of checkpointing, say that the program checkpoints every $ N $
+In the case of checkpointing, say that the program checkpoints every $`N`$
 minutes and that the program may be preempted at any time.  To determine the
 probability density function it is first necessary to find the normalization
 constant such that the total probability is one.  In this case the distribution
@@ -199,21 +199,21 @@ is uniform between 0 and N so we need to find C such that
 
 ```math
 
-C \int_0^N dx = 1
+C \int_0^N \, dx = 1
 ```
 
-This straightforwardly gives $ C = 1/N $ (which can also immediately be seen
-from the fact that for a rectangle of base $N$ to have an area of 1 the height
-must be $1/N$).
+This straightforwardly gives $`C = 1/N`$ (which can also immediately be seen
+from the fact that for a rectangle of base $`N`$ to have an area of 1 the height
+must be $`1/N`$).
 
 The expected value is then
 
 ```math
 
-(1/N) \int_0^N x dx = N/2
+(1/N) \int_0^N x\, dx = N/2
 ```
 
-So on average $N/2$ minutes of work will be lost, which is what would be
+So on average $`N/2`$ minutes of work will be lost, which is what would be
 expected by symmetry.
 
 
