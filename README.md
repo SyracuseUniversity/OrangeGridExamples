@@ -17,11 +17,11 @@ git clone http://github.com/SyracuseUniversity/OrangeGridExamples
 
 These examples discuss general techniques for optimizing performance and throughput
 
-* [Checkpointing](Examples/Checkpointing): Learn how to save work that your jobs are doing, so if they exit for any reason HTCondor can restart them where they left off.
-* [Parallelism](Examples/Parallelism): Learn how to divide a task into lots of smaller tasks that can run independently so they can spread out over the cluster.
-* [File management](Examples/FileManagement): Learn how to arrange your data into chunks that are both more efficient for later analyses and perform better on the cluster.
-* [multipleJobs](Examples/multipleJobs): Learn how to submit multiple jobs from one submit file.
-* [HTCondorDiagnostics](Examples/HTCondorDiagnostics): Check the status of the cluster.
+  * [Checkpointing](Examples/Checkpointing): Learn how to save work that your jobs are doing, so if they exit for any reason HTCondor can restart them where they left off.
+  * [Parallelism](Examples/Parallelism): Learn how to divide a task into lots of smaller tasks that can run independently so they can spread out over the cluster.
+  * [File management](Examples/FileManagement): Learn how to arrange your data into chunks that are both more efficient for later analyses and perform better on the cluster.
+  * [multipleJobs](Examples/multipleJobs): Learn how to submit multiple jobs from one submit file.
+  * [HTCondorDiagnostics](Examples/HTCondorDiagnostics): Check the status of the cluster.
 
 
 ## Using particular languages and libraries
@@ -39,6 +39,32 @@ These examples discuss general techniques for optimizing performance and through
   * [CVMFS](Examples/CVMFS): Use software a data distributed through the CERN Virtual File System
   * [Grobid](Examples/Grobid): use GROBID, a machine learning library for extracting, parsing and re-structuring raw documents such as PDF into structured documents.
 
+## Workflow managers
+
+Single submit files are great for anything from a single job to thousands of
+jobs where the same command is run on numerous arguments.  However research
+often entails more complex arrangements of jobs, where an initial stage will
+create files which are needed by a later stage or postprocessing can only be run
+once a set of analyses have completed.  In general there may be arbitrary
+*dependencies* between jobs.  While it is always possible to manage these
+manually, waiting for one set of jobs to complete before running the next, it is
+much more convinient to have a workflow manager handle the dependencies.  There
+are many such systems, suitable for different situations.
+
+  * [DAGMan](https://htcondor.readthedocs.io/en/latest/automated-workflows/dagman-introduction.html)
+    (Directed Acyclic Graph Manager) is HTCondor's native workflow manager.
+    Using it involves creating a simple text file describing the jobs and their
+    connections (or writing a program to generate such a file).  We discuss
+    DAGMan in the section on [Parallelism](Examples/Parallelism).
+	
+  * [Pegasus](Examples/Pegasus) is an extremely powerful, but also fairly
+    complex, workflow management system developed by the Information Sciences
+    Institute at the University of Southern California.
+
+  * SnakeMake (coming soon)
+
+  * NextFlow (coming soon)
+  
 
 
 ## Need Help? 
