@@ -61,7 +61,8 @@ are many such systems, suitable for different situations.
     complex, workflow management system developed by the Information Sciences
     Institute at the University of Southern California.
 
-  * SnakeMake (coming soon)
+  * [SnakeMake](Examples/Snakemake) is a tool for running workflows spficifed by
+    the relationships between input and output files of individual processes.
 
   * NextFlow (coming soon)
   
