@@ -38,7 +38,8 @@ These examples discuss general techniques for optimizing performance and through
   * [blender](Examples/blender): Render images and movies.
   * [CVMFS](Examples/CVMFS): Use software and data distributed through the CERN Virtual File System
   * [Grobid](Examples/Grobid): Use GROBID, a machine learning library for extracting, parsing and re-structuring raw documents such as PDF into structured documents.
-
+  * [CUDA 1.3](Examples/CUDA13): Use GPUs with code requiring the latest versions of the CUDA library. 
+  
 ## Workflow managers
 
 Single submit files are great for anything from a single job to thousands of
