@@ -39,6 +39,7 @@ These examples discuss general techniques for optimizing performance and through
   * [CVMFS](Examples/CVMFS): Use software and data distributed through the CERN Virtual File System
   * [Grobid](Examples/Grobid): Use GROBID, a machine learning library for extracting, parsing and re-structuring raw documents such as PDF into structured documents.
   * [CUDA 1.3](Examples/CUDA13): Use GPUs with code requiring the latest versions of the CUDA library. 
+  * [JAX](Examples/JAX): Optimize certain mathematical operations on GPUs.
   
 ## Workflow managers
 
