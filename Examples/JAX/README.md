@@ -13,6 +13,10 @@ couple of very powerful optimizations:
     can optimize code such that data stays on the GPU between operations, rather
     than needing to be moved back and forth.
 
+In addition JAX provides sophisticated memory management tools for moving data
+bewteen host memory and GPU memory, as well as tools to distribute computation
+across multiple devices.
+
 ## Installing JAX
 
 Jax is a standard Python library and can be installed using pip.  This does
@@ -143,5 +147,70 @@ see the project's own [documentation](https://docs.jax.dev/en/latest/index.html)
 for more advanced use.
 
 
+## Memory management
+
+JAX allows data stuctures to be distributed across mutiple devices, this allows
+structures to be trasparently larger than could fit on a single GPU, while still
+often getting performance boosts from that portion that can be stored on the
+device.  Full details are in the [host
+offloading](https://docs.jax.dev/en/latest/notebooks/host-offloading.html)
+section of the manual but here are some example to get a taste of how it works.
+
+First, consider a situation where there are two GPUs available (on OrangeGrid
+this would be done by adding `+request_gpus=2` to the submit file).  This code
+witll create a *Mesh* named `x` containing both devices.
+
+```python
+from jax.sharding import Mesh, PartitionSpec as P, NamedSharding
+import jax.numpy as jnp
+import jax
+
+devices = jax.local_devices()[:2]
+x_mesh  = Mesh(devices, ('x',))
+```
+
+The next step is to tell JAX how to split data across the two devices by
+specifying the *sharding*.  Here the data will be split along the first axis
+
+```python
+sharding = NamedSharding(mesh, P('x', None))
+```
+
+Next, create some data in a standard host memory array, and use `device_put` to
+move it to the GPUs
+
+```python
+cpu_array  = jnp.arange(8, dtype=jnp.float32)
+gpus_array = jax.device_put(cpu_array, sharding)
+```
+
+This will put the portion of the array containing `[0,1,2,3]` on device 1 and
+`[4,5,6,7]` on device 2, but all subsequent operations on this array will work
+as if it were all on one device, up to issues of performance.
+
+It is also possible to distribute data between host and GPU memory.  First find
+the local CPU and GPU in the list of devices, and construct an array containing
+them
+
+```python
+cpu_device = [d for d in jax.devices() if d.platform == 'cpu'][0]
+gpu_device = [d for d in jax.devices() if d.platform == 'gpu'][0]
+devices    = jnp.array([cpu_device, gpu_device])
+```
+
+The rest of the code is unchanged and, again, all operations on this data will
+work without the programmer needing to keep track of the underlying storage.
+
+## Distributed computing
+
+The previous section hints at the power of sharding over a mesh of devices, but
+JAX can go further and work accross devices distributed accross different nodes.
+The details are beyond the scope of this tutorial, please see the official
+documentation for 
+
+(Introduction to multi-controller
+JAX)[https://docs.jax.dev/en/latest/multi_process.html] and a more complete
+example in (The Training
+Cookbook)[https://docs.jax.dev/en/latest/the-training-cookbook.html].
 
 
