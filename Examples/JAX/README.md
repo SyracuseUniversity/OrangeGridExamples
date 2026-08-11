@@ -1,10 +1,10 @@
 # JAX
 
-JAX is a Python library providing optimized mathematical operations for both CPUs
-and GPUs.  Of particular note, it provides "just in time compilation" of math
-routines, enabling dynamic optimization beyond the static optimizations in other
-numeric libraries such as numpy.  Specifically, this approach allows for a
-couple of very powerful optimizations:
+[JAX](https://docs.jax.dev/en/latest/) is a Python library providing optimized
+mathematical operations for both CPUs and GPUs.  Of particular note, it provides
+"just in time compilation" of math routines, enabling dynamic optimization
+beyond the static optimizations in other numeric libraries such as numpy.
+Specifically, this approach allows for a couple of very powerful optimizations:
 
   * The compiler knows the exact size of the arrays being operated on, this
     eliminates the need for size checks and allows code to be more specific.
@@ -214,3 +214,5 @@ example in (The Training
 Cookbook)[https://docs.jax.dev/en/latest/the-training-cookbook.html].
 
 
+---
+Please email any questions or comments about this document to Research Computing at [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu).
