@@ -46,11 +46,11 @@ These examples discuss general techniques for optimizing performance and through
 Single submit files are great for anything from a single job to thousands of
 jobs where the same command is run on numerous arguments.  However research
 often entails more complex arrangements of jobs, where an initial stage will
-create files which are needed by a later stage or postprocessing can only be run
+create files which are needed by a later stage or post processing can only be run
 once a set of analyses have completed.  In general there may be arbitrary
 *dependencies* between jobs.  While it is always possible to manage these
 manually, waiting for one set of jobs to complete before running the next, it is
-much more convinient to have a workflow manager handle the dependencies.  There
+much more convenient to have a workflow manager handle the dependencies.  There
 are many such systems, suitable for different situations.
 
   * [DAGMan](https://htcondor.readthedocs.io/en/latest/automated-workflows/dagman-introduction.html)
@@ -63,10 +63,11 @@ are many such systems, suitable for different situations.
     complex, workflow management system developed by the Information Sciences
     Institute at the University of Southern California.
 
-  * [SnakeMake](Examples/Snakemake) is a tool for running workflows spficifed by
+  * [SnakeMake](Examples/Snakemake) is a tool for running workflows specified by
     the relationships between input and output files of individual processes.
 
-  * NextFlow (coming soon)
+  * [NextFlow](Examples/Nextflow) is framework for creating scientific workflows with an emphasis on how data moves between various stages of processing. It is
+    inspired in part by the [Unix Philosophy] encapsulated in the way data flows between processes connected by pipes.
   
 
 
