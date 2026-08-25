@@ -67,7 +67,7 @@ are many such systems, suitable for different situations.
     the relationships between input and output files of individual processes.
 
   * [NextFlow](Examples/Nextflow) is framework for creating scientific workflows with an emphasis on how data moves between various stages of processing. It is
-    inspired in part by the [Unix Philosophy] encapsulated in the way data flows between processes connected by pipes.
+    inspired in part by the [Unix Philosophy](https://en.wikipedia.org/wiki/Unix_philosophy) encapsulated in the way data flows between processes connected by pipes.
   
 
 
