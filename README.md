@@ -73,6 +73,6 @@ are many such systems, suitable for different situations.
 
 ## Need Help? 
 
-Additional how-to documentation, such as connecting to clusters and running jobs, is [available in Answers](https://su-jsm.atlassian.net/l/cp/LQV915Gs). 
+Additional how-to documentation, such as connecting to the cluster and running jobs, is [available at docs.syr.edu](https://docs.syr.edu/ResearchComputing/).
 
 If you would like to contact us directly for assistance or requesting access, email [researchcomputing@syr.edu](mailto:researchcomputing@syr.edu). 
