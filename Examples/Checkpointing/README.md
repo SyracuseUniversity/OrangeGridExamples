@@ -104,6 +104,21 @@ Unfortunately there is no hard and fast rule regarding how often to checkpoint,
 it comes down to deciding what the right balance is between the overhead of 
 checkpointing and the risk of badput for each application.
 
+There is a third cost that is easy to miss.  On OrangeGrid your checkpoint is
+written to your home directory, which is shared network storage.  That storage
+takes snapshots every few hours and keeps them for several days, and each
+snapshot holds on to every file as it was when the snapshot was taken.  A
+checkpoint that is replaced between snapshots is therefore stored once per
+snapshot, so a large checkpoint can quietly take up many times its own size, and
+that space is only freed when the old snapshots expire, even after you delete
+the file.  With many jobs doing this the storage behind your home directory can
+fill up even though your quota shows plenty of room.  Keep checkpoints as small
+as your resume logic allows, keep only the most recent one, and delete them once
+the job that owns them has finished.  Write them no more often than the work
+justifies: for most jobs that is every 30 to 60 minutes rather than every few
+seconds, since every write of a large file also adds load to storage that
+everyone shares.
+
 
 ## When to checkpoint
 
