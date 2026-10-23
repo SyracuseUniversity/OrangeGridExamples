@@ -68,12 +68,12 @@ if there is one.
 
 from pathlib import Path
 
-checkpoint = Path("checkpoint")
+checkpoint = Path("checkpoint.dat")
 if checkpoint.is_file():
     with checkpoint.open() as f_in:
         line = f_in.readline()
         start_in, total_in = line.split()
-        start = int(start_in)
+        start = int(start_in) + 1
         total = int(total_in)
 else:
     start = 1
