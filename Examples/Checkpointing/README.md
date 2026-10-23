@@ -303,10 +303,18 @@ So far this document has focused on modifying code developed at SU, however
 OrangeGrid is also used to run large, sophisticated open source programs 
 developed elsewhere.  In general applications that are meant to be run on a 
 cluster will be able to do some form of checkpointing, this should appear in the 
-application's documentation.  As two examples:
+application's documentation.  For example:
 
   * [Checkpointing in Gromacs](https://manual.gromacs.org/current/user-guide/managing-simulations.html)
   * [Checkpointing in LAMMPS](https://docs.lammps.org/restart.html) with the "restart" command
+  * [Checkpointing in NAMD](https://www.ks.uiuc.edu/Research/namd/3.0/ug/node12.html)
+    with `restartfreq`, which writes `.restart.coor`, `.restart.vel` and
+    `.restart.xsc` files as the run goes.  NAMD does not resume on its own: to
+    continue an interrupted run, point `binCoordinates`, `binVelocities` and
+    `extendedSystem` at that run's latest restart files, set `firsttimestep` to
+    the step recorded in the `.xsc` file, and give the total length with
+    `numsteps` rather than `run`.  Otherwise the resubmitted job starts over
+    from the beginning and overwrites the restart files it could have used.
 
 
 ## The best way to do checkpointing...
