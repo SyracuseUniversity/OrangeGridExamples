@@ -68,12 +68,12 @@ if there is one.
 
 from pathlib import Path
 
-checkpoint = Path("checkpoint")
+checkpoint = Path("checkpoint.dat")
 if checkpoint.is_file():
     with checkpoint.open() as f_in:
         line = f_in.readline()
         start_in, total_in = line.split()
-        start = int(start_in)
+        start = int(start_in) + 1
         total = int(total_in)
 else:
     start = 1
@@ -103,6 +103,21 @@ infrequently means that if the node goes down more work will be lost.
 Unfortunately there is no hard and fast rule regarding how often to checkpoint, 
 it comes down to deciding what the right balance is between the overhead of 
 checkpointing and the risk of badput for each application.
+
+There is a third cost that is easy to miss.  On OrangeGrid your checkpoint is
+written to your home directory, which is shared network storage.  That storage
+takes snapshots every few hours and keeps them for several days, and each
+snapshot holds on to every file as it was when the snapshot was taken.  A
+checkpoint that is replaced between snapshots is therefore stored once per
+snapshot, so a large checkpoint can quietly take up many times its own size, and
+that space is only freed when the old snapshots expire, even after you delete
+the file.  With many jobs doing this the storage behind your home directory can
+fill up even though your quota shows plenty of room.  Keep checkpoints as small
+as your resume logic allows, keep only the most recent one, and delete them once
+the job that owns them has finished.  Write them no more often than the work
+justifies: for most jobs that is every 30 to 60 minutes rather than every few
+seconds, since every write of a large file also adds load to storage that
+everyone shares.
 
 
 ## When to checkpoint
@@ -288,10 +303,21 @@ So far this document has focused on modifying code developed at SU, however
 OrangeGrid is also used to run large, sophisticated open source programs 
 developed elsewhere.  In general applications that are meant to be run on a 
 cluster will be able to do some form of checkpointing, this should appear in the 
-application's documentation.  As two examples:
+application's documentation.  For example:
 
   * [Checkpointing in Gromacs](https://manual.gromacs.org/current/user-guide/managing-simulations.html)
   * [Checkpointing in LAMMPS](https://docs.lammps.org/restart.html) with the "restart" command
+  * [Checkpointing in NAMD](https://www.ks.uiuc.edu/Research/namd/3.0/ug/node12.html)
+    with `restartfreq`, which writes `.restart.coor`, `.restart.vel` and
+    `.restart.xsc` files as the run goes.  NAMD does not resume on its own: to
+    continue an interrupted run, point `binCoordinates`, `binVelocities` and
+    `extendedSystem` at that run's latest restart files, remove the
+    `temperature` line (NAMD will not start with both), set `firsttimestep` to
+    the step recorded in the `.xsc` file, and give the total length with
+    `numsteps` rather than `run`.  `numsteps` is the step to stop at, so the
+    run ends where it was always going to, while `run` adds that many steps on
+    top.  Otherwise the resubmitted job starts over from the beginning and
+    overwrites the restart files it could have used.
 
 
 ## The best way to do checkpointing...
