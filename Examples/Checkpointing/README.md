@@ -311,10 +311,13 @@ application's documentation.  For example:
     with `restartfreq`, which writes `.restart.coor`, `.restart.vel` and
     `.restart.xsc` files as the run goes.  NAMD does not resume on its own: to
     continue an interrupted run, point `binCoordinates`, `binVelocities` and
-    `extendedSystem` at that run's latest restart files, set `firsttimestep` to
+    `extendedSystem` at that run's latest restart files, remove the
+    `temperature` line (NAMD will not start with both), set `firsttimestep` to
     the step recorded in the `.xsc` file, and give the total length with
-    `numsteps` rather than `run`.  Otherwise the resubmitted job starts over
-    from the beginning and overwrites the restart files it could have used.
+    `numsteps` rather than `run`.  `numsteps` is the step to stop at, so the
+    run ends where it was always going to, while `run` adds that many steps on
+    top.  Otherwise the resubmitted job starts over from the beginning and
+    overwrites the restart files it could have used.
 
 
 ## The best way to do checkpointing...
