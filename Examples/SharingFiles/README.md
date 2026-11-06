@@ -1,9 +1,8 @@
 # Sharing Files with Other Users
 
-Home directories on the cluster are private: only you can see what is in
-yours.  Nothing inside your home directory was changed to make it private,
-the protection comes from the top-level directory itself, which other users
-can no longer open or list.
+Home directories provided by Research Computing are private by default.  This
+privacy comes from the top-level directory itself, which other users cannot
+open unless you give them access as described below.
 
 There are two ways to let someone else read your files.
 
@@ -23,10 +22,10 @@ other.
 
 ## How access works
 
-To read `/home/you/projects/paper/data`, another user needs two things:
+To read `/home/you/projects/paper/data`, another user needs two things.
 
-  1. Permission to *pass through* every directory on the way there:
-     `/home/you`, `/home/you/projects`, and `/home/you/projects/paper`.
+  1. Permission to *pass through* every directory on the way there, which in
+     this case means `/home/you`, `/home/you/projects`, and `/home/you/projects/paper`.
      Passing through lets them reach the folder but not list or read anything
      else along the way.
   2. Permission to *read* the folder itself and the files in it.
@@ -38,7 +37,7 @@ ACLs are managed with two commands, `nfs4_setfacl` to change them and
 ## Sharing a folder
 
 In this example you share `~/projects/paper/data` with the user whose NetID is
-`abc123`.  First give them pass-through on each directory above the folder.
+`abc123`.  First let them pass through each directory above the folder.
 The `x` at the end of each entry means pass through only.
 
 ```bash
@@ -112,7 +111,7 @@ nfs4_setfacl -x A::abc123@ad.syr.edu:x ~
 
 Entries must be removed exactly as `nfs4_getfacl` prints them.  To tidy up
 the rest, remove the entries from the folders on the path and from the shared
-folder itself.  Files created after the folder was shared carry a copy of the
+folder itself.  Files created in a shared folder carry a copy of the
 entry without the `fd` flags, so remove both forms
 
 ```bash
