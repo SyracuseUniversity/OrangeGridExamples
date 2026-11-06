@@ -16,9 +16,10 @@ There are two ways to let someone else read your files.
     them access yourself with an *access control list*, or ACL.  The rest of
     this page explains how.
 
-The commands are the same on OrangeGrid and Zest.  Note that the two clusters
-have separate home directories, so a folder shared on one is not shared on the
-other.
+The commands are the same on OrangeGrid and Zest.  Sharing works across every
+login node and access point on the same cluster, so you and the person you
+share with do not need to use the same one.  The two clusters have separate
+home directories, so a folder shared on one is not shared on the other.
 
 ## How access works
 
@@ -26,8 +27,8 @@ To read `/home/you/projects/paper/data`, another user needs two things.
 
   1. Permission to *pass through* every directory on the way there, which in
      this case means `/home/you`, `/home/you/projects`, and `/home/you/projects/paper`.
-     Passing through lets them reach the folder but not list or read anything
-     else along the way.
+     Passing through a directory lets them open anything inside it whose name
+     they know, but not list what is there.
   2. Permission to *read* the folder itself and the files in it.
 
 ACLs are managed with two commands, `nfs4_setfacl` to change them and
@@ -131,6 +132,12 @@ nfs4_setfacl -R -x A::abc123@ad.syr.edu:rx ~/projects/paper/data
   * **Every directory on the path needs a pass-through entry.**  If the other
     person gets `Permission denied`, check each directory between your home
     directory and the shared folder with `nfs4_getfacl`.
+
+  * **Passing through your home directory reaches more than one folder.**
+    Someone who can pass through your home directory can open any other folder
+    or file in it whose name they know, unless that folder or file is private.
+    Keep shared material in its own folder, and run `chmod 700` on any other
+    folder in your home directory that holds something sensitive.
 
   * **Don't open up your whole home directory.**  Changing your home directory
     to `755` or `711` lets every user on the cluster read everything in it,
