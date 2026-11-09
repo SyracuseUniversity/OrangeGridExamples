@@ -129,10 +129,6 @@ nfs4_setfacl -R -x A::abc123@ad.syr.edu:rx ~/projects/paper/data
     with `mv` keeps the permissions it had before.  Use `cp` instead, or run
     the `nfs4_setfacl -R -a` command again after moving files in.
 
-  * **Every directory on the path needs a pass-through entry.**  If the other
-    person gets `Permission denied`, check each directory between your home
-    directory and the shared folder with `nfs4_getfacl`.
-
   * **Passing through your home directory reaches more than one folder.**
     Someone who can pass through your home directory can open any other folder
     or file in it whose name they know, unless that folder or file is private.
@@ -144,6 +140,37 @@ nfs4_setfacl -R -x A::abc123@ad.syr.edu:rx ~/projects/paper/data
     not just the person you meant to share with.  Use the steps above instead.
 
   * **Changes may take up to a minute to appear** on other nodes.
+
+## Common errors
+
+**`Failed setxattr operation: Invalid argument`**
+
+The NetID is misspelled, or that person does not have an account on this
+cluster.  Check the spelling and make sure the NetID is followed by
+`@ad.syr.edu`.  Accounts on OrangeGrid and Zest are separate, so someone with
+an OrangeGrid account may not have one on Zest.
+
+**`Segmentation fault (core dumped)`** on OrangeGrid, or **`Scanning ACE
+string ... failed`** on Zest
+
+The entry itself is mistyped.  On OrangeGrid a mistyped entry crashes
+`nfs4_setfacl`, which looks alarming but does no harm and changes nothing.  On
+Zest the same mistake produces the scanning error instead.  The most common
+cause is a missing colon after the `A`.  Every entry starts with `A::` or
+`A:fd:`, then the NetID, then the permissions, as in
+
+```
+A::abc123@ad.syr.edu:x
+A:fd:abc123@ad.syr.edu:rx
+```
+
+**The other person gets `Permission denied`**
+
+A directory on the path is missing their pass-through entry.  Run
+`nfs4_getfacl` on each directory from your home directory down to the shared
+folder and check that their NetID appears on every one.  If only some files
+are affected, they may have been moved in with `mv`, so run the
+`nfs4_setfacl -R -a` command on the shared folder again.
 
 ## Need Help?
 
