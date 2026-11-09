@@ -81,3 +81,9 @@ providence information describing how the data was generated.  In addition some
 of these tools, sqlite especially, provides very sophisticated tools for doing
 post-processing and analysis of data, essentially for free.
 
+## Sharing files with colleagues
+
+Home directories are private by default.  To let a colleague read or write a
+specific folder in your home directory, see [Sharing Files with Other
+Users](../SharingFiles).
+

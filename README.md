@@ -20,6 +20,7 @@ These examples discuss general techniques for optimizing performance and through
   * [Checkpointing](Examples/Checkpointing): Learn how to save work that your jobs are doing, so if they exit for any reason HTCondor can restart them where they left off.
   * [Parallelism](Examples/Parallelism): Learn how to divide a task into lots of smaller tasks that can run independently so they can spread out over the cluster.
   * [File management](Examples/FileManagement): Learn how to arrange your data into chunks that are both more efficient for later analyses and perform better on the cluster.
+  * [Sharing files](Examples/SharingFiles): Learn how to let specific colleagues read or write a folder in your home directory.
   * [multipleJobs](Examples/multipleJobs): Learn how to run multiple jobs from one submit file.
   * [HTCondorDiagnostics](Examples/HTCondorDiagnostics): Check the status of the cluster.
 
