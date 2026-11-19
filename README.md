@@ -37,6 +37,7 @@ These examples discuss general techniques for optimizing performance and through
   * [R](Examples/R): Use the R language and its libraries.
   * [Apptainer](Examples/Apptainer): Simplify the installation of complex packages by pulling containers from Dockerhub or building new containers.
   * [blender](Examples/blender): Render images and movies.
+  * [OpenFOAM](Examples/OpenFOAM): Run computational fluid dynamics simulations, from a single case to large parameter sweeps, with no license needed.
   * [CVMFS](Examples/CVMFS): Use software and data distributed through the CERN Virtual File System
   * [Grobid](Examples/Grobid): Use GROBID, a machine learning library for extracting, parsing and re-structuring raw documents such as PDF into structured documents.
   * [CUDA 1.3](Examples/CUDA13): Use GPUs with code requiring the latest versions of the CUDA library. 

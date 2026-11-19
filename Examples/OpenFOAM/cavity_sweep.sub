@@ -1,0 +1,13 @@
+# A parameter sweep: one lid driven cavity run per line of sweep.dat, each
+# with a different viscosity, all running at the same time
+executable     = openfoam_wrapper.sh
+arguments      = ./cavity_sweep.sh $(reynolds) $(viscosity)
+
+output         = output/cavity_Re$(reynolds).out
+error          = output/cavity_Re$(reynolds).err
+log            = logs/cavity_sweep.log
+
+request_cpus   = 1
+request_memory = 1GB
+
+queue reynolds, viscosity from sweep.dat

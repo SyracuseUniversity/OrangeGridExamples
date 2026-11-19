@@ -1,0 +1,26 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  v2512                                 |
+|   \  /    A nd           | Website:  www.openfoam.com                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+// Split the mesh into this many pieces, one per core.  This must match
+// request_cpus in pitzDaily_parallel.sub and -np in pitzDaily_parallel.sh.
+numberOfSubdomains  4;
+
+// scotch divides the mesh automatically, keeping the pieces about the same
+// size with as few shared faces as possible.
+method              scotch;
+
+
+// ************************************************************************* //
