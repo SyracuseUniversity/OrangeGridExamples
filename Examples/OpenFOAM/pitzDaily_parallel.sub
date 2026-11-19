@@ -1,0 +1,13 @@
+# The same case split across 4 cores of one machine with MPI.  request_cpus
+# must match numberOfSubdomains in pitzDaily/system/decomposeParDict.
+executable     = openfoam_wrapper.sh
+arguments      = ./pitzDaily_parallel.sh
+
+output         = output/pitzDaily_parallel.out
+error          = output/pitzDaily_parallel.err
+log            = logs/pitzDaily_parallel.log
+
+request_cpus   = 4
+request_memory = 2GB
+
+queue 1

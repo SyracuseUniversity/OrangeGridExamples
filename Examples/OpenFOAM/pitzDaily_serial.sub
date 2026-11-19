@@ -1,0 +1,12 @@
+# One OpenFOAM run on one core: turbulent flow over a backward facing step
+executable     = openfoam_wrapper.sh
+arguments      = ./pitzDaily_serial.sh
+
+output         = output/pitzDaily_serial.out
+error          = output/pitzDaily_serial.err
+log            = logs/pitzDaily_serial.log
+
+request_cpus   = 1
+request_memory = 1GB
+
+queue 1
